@@ -1,5 +1,5 @@
 /obj/item/roboupgrade/music
-    name = "Sound Synthesizer Upgrade"
+    name = "sound synthesizer upgrade"
     desc = "An upgrade to a cyborg's vocal synthesizer that allows it to replicate the sounds of various instruments."
     // icon_state = "" // uhh how do i sprite
     active = 1
