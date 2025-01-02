@@ -214,7 +214,7 @@
 
 	ui_status(mob/user, datum/ui_state/state)
 		. = ..()
-		if(. <= UI_CLOSE || !IN_RANGE(src, user, 1))
+		if(!istype(src.loc, /obj/item/roboupgrade/music) && (. <= UI_CLOSE || !IN_RANGE(src, user, 1)))
 			user.reset_keymap()
 			return UI_CLOSE
 
