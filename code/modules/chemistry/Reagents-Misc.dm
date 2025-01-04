@@ -523,8 +523,10 @@ datum
 					return
 				if (volume_passed < 1)
 					return
+				var/came_back_wrong = 0
+				var/is_puritan = 0
+				var/is_dnr = 0
 				if (isdead(M) || istype(get_area(M),/area/afterlife/bar))
-					var/came_back_wrong = 0
 					if (M.get_brute_damage() + M.get_burn_damage() >= 150)
 						came_back_wrong = 1
 					if (ismobcritter(M))
@@ -539,24 +541,30 @@ datum
 						var/mob/living/carbon/human/H = M
 						var/obj/item/organ/brain/B = H.organHolder?.get_organ("brain")
 						G = find_ghost_by_key(B?.owner?.key)
-						var/is_puritan = 0
 						if(ismob(G))
 							for (var/trait as anything in G?.client.preferences.traitPreferences.traits_selected)
 								if(trait == "puritan")
 									is_puritan = 1
 						if(H.traitHolder.hasTrait("puritan"))
 							is_puritan = 1
-						if (came_back_wrong || H.decomp_stage || G?.mind?.get_player()?.dnr || is_puritan) //Wire: added the dnr condition here
-							H.visible_message(SPAN_ALERT("<B>[H]</B> starts convulsing violently!"))
-							if (G?.mind?.get_player()?.dnr)
-								H.visible_message(SPAN_ALERT("<b>[H]</b> seems to prefer the afterlife!"))
-							H.make_jittery(1000)
-							SPAWN(rand(20, 100))
-								logTheThing(LOG_COMBAT, H, "is gibbed by puritan when resuscitated with strange reagent at [log_loc(H)].")
-								H.gib()
-							return
+						if (H.decomp_stage)
+							came_back_wrong = 1
 					else // else just get whoever's the mind
-						G = find_ghost_by_key(M.mind?.key)
+						G = M.ghost // critter mind var is null, get ghost instead
+						for (var/trait as anything in G?.client.preferences.traitPreferences.traits_selected)
+							if(trait == "puritan")
+								is_puritan = 1
+						if (G?.mind?.get_player()?.dnr)
+							is_dnr = 1
+					if (came_back_wrong || is_puritan || is_dnr)
+						M.visible_message(SPAN_ALERT("<B>[M]</B> starts convulsing violently!"))
+						if (is_dnr)
+							M.visible_message(SPAN_ALERT("<b>[M]</b> seems to prefer the afterlife!"))
+						M.make_jittery(1000)
+						SPAWN(rand(20, 100))
+							logTheThing(LOG_COMBAT, M, "is gibbed when resuscitated with strange reagent at [log_loc(M)].")
+							M.gib()
+						return
 					logTheThing(LOG_COMBAT, M, "is resuscitated with strange reagent at [log_loc(M)].")
 					if (G)
 						if (!isdead(G)) // so if they're in VR, the afterlife bar, or a ghostcritter
