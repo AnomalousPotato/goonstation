@@ -147,7 +147,7 @@ ABSTRACT_TYPE(/datum/syndicate_buylist/generic)
 	desc = "A counterfeit identification card, designed to prevent tracking by the station's AI systems. It features a one-time programmable identification circuit, allowing the entry of a custom false identity. It is also capable of scanning other ID cards and replicating their access credentials."
 
 /datum/syndicate_buylist/generic/cashcase
-	name = "Syndicate briefcase full of cash"
+	name = "Cash Briefcase"
 	items = list(/obj/item/cash_briefcase/syndicate/loaded)
 	cost = 2
 	max_buy = 2
@@ -1156,6 +1156,14 @@ ABSTRACT_TYPE(/datum/syndicate_buylist/surplus)
 	desc = "A signal flaregun for emergency use. Or for setting jerks on fire"
 	br_allowed = TRUE
 
+/datum/syndicate_buylist/traitor/rifle
+	name = "Old Hunting Rifle"
+	items = list(/obj/item/gun/kinetic/hunting_rifle)
+	cost = 7
+	job = list("Pest Control Specialist")
+	desc = "An old hunting rifle, comes with only four bullets. Use them wisely."
+	can_buy = UPLINK_TRAITOR
+
 /datum/syndicate_buylist/surplus/rifle
 	name = "Old Hunting Rifle"
 	items = list(/obj/item/gun/kinetic/hunting_rifle)
@@ -1449,3 +1457,9 @@ ABSTRACT_TYPE(/datum/syndicate_buylist/generic/head_rev)
 	items = list(/obj/item/tool/quickhack/syndicate)
 	cost = 1
 	desc = "An illegal, home-made tool able to fake up to 10 AI 'open' signals to unbolted doors."
+
+/datum/syndicate_buylist/surplus/basketball
+	name = "Extremely illegal basketball"
+	items = list(/obj/item/basketball/lethal)
+	cost = 3
+	desc = "An even more illegal basketball capable of dangerous levels of balling."
